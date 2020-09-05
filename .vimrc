@@ -22,7 +22,7 @@ set scrolloff=10
 
 " Show where 80 characters is,
 " it's not recommended to go over this.
-set colorcolumn=80
+"set colorcolumn=80
 
 " Indents your code 'correctly'.
 set tabstop=4 softtabstop=0 expandtab shiftwidth=4 smarttab
@@ -75,6 +75,9 @@ nnoremap <C-L> <C-W><C-L>
 " Clear search highlights
 nnoremap <esc><esc> :noh<enter>
 
+" Remap :
+nnoremap S :%s//g<left><left>
+
 " Enable folding
 set foldmethod=indent
 set foldlevel=99
@@ -86,8 +89,8 @@ set autoindent
 set is      " incremental search
 
 " Bind caps lock to esc
-au VimEnter * !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape'
-au VimLeave * !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Caps_Lock'
+"au VimEnter * !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape'
+"au VimLeave * !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Caps_Lock'
 
 " toggle number style
 augroup numbertoggle
@@ -95,4 +98,4 @@ augroup numbertoggle
     autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
     autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber
 augroup END
-
+ 
