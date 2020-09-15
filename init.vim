@@ -8,6 +8,7 @@ if ! filereadable(system('echo -n "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autolo
 endif
 
 call plug#begin(system('echo -n "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/plugged"'))
+Plug 'morhetz/gruvbox'
 Plug 'tpope/vim-surround'
 Plug 'preservim/nerdtree'
 Plug 'junegunn/goyo.vim'
@@ -21,21 +22,52 @@ Plug 'kovetskiy/sxhkd-vim'
 Plug 'ap/vim-css-color'
 call plug#end()
 
-set bg=light
 set go=a
 set mouse=a
 set hlsearch
+set nowrap
 set clipboard+=unnamedplus
+colorscheme gruvbox
 
 " Some basics:
-	nnoremap c "_c
 	set nocompatible
 	filetype plugin on
 	syntax on
 	set encoding=utf-8
 	set number relativenumber
+
+
+" Shortcut to use blackhole register by default
+"	nnoremap d "_d
+"	vnoremap d "_d
+"	nnoremap D "_D
+"	vnoremap D "_D
+	nnoremap c "_c
+	vnoremap c "_c
+"	nnoremap C "_C
+"	vnoremap C "_C
+"	nnoremap x "_x
+"	vnoremap x "_x
+"	nnoremap X "_X
+"	vnoremap X "_X
+
+" Shortcut to use clipboard with <leader>
+"	nnoremap <leader>d d
+"	vnoremap <leader>d d
+"	nnoremap <leader>D D
+"	vnoremap <leader>D D
+	nnoremap <leader>c c
+	vnoremap <leader>c c
+"	nnoremap <leader>C C
+"	vnoremap <leader>C C
+"	nnoremap <leader>x x
+"	vnoremap <leader>x x
+"	nnoremap <leader>X X
+"	vnoremap <leader>X X
+
 " Enable autocompletion:
 	set wildmode=longest,list,full
+
 " Disables automatic commenting on newline:
 	autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
@@ -71,23 +103,23 @@ set clipboard+=unnamedplus
 	map <C-l> <C-w>l
 
 " Replace ex mode with gq
-	map Q gq
+"	map Q gq
 
 " Check file in shellcheck:
-	map <leader>s :!clear && shellcheck %<CR>
+"	map <leader>s :!clear && shellcheck %<CR>
 
 " Open my bibliography file in split
-	map <leader>b :vsp<space>$BIB<CR>
-	map <leader>r :vsp<space>$REFER<CR>
+"	map <leader>b :vsp<space>$BIB<CR>
+"	map <leader>r :vsp<space>$REFER<CR>
 
 " Replace all is aliased to S.
 	nnoremap S :%s//g<Left><Left>
 
 " Compile document, be it groff/LaTeX/markdown/etc.
-	map <leader>c :w! \| !compiler <c-r>%<CR>
+"	map <leader>c :w! \| !compiler <c-r>%<CR>
 
 " Open corresponding .pdf/.html or preview
-	map <leader>p :!opout <c-r>%<CR><CR>
+"	map <leader>p :!opout <c-r>%<CR><CR>
 
 " Runs a script that cleans out tex build files whenever I close out of a .tex file.
 	autocmd VimLeave *.tex !texclear %
@@ -137,3 +169,43 @@ set scrolloff=10
 nnoremap <esc><esc> :noh<enter>
 
 highlight LineNr ctermbg=black
+
+" Show 80th line
+set colorcolumn=80
+
+" These commands are only enabled for python files.
+augroup python
+    " Ctrl-g now lets you write a grep command to search all python files.
+    nnoremap <C-g> <ESC>:copen <BAR> grep  *.py<LEFT><LEFT><LEFT><LEFT><LEFT>
+
+    " TIP: To work even more effectively, try running the ':copen' command
+    " after pressing <F5> and the program didn't run. It's pretty cool!
+    " (':cn' and ':cp' will help you here!)
+    "
+    " Say that we're using python scripts here.
+    set makeprg=python3
+    " Jumps you to the errors, it's pretty speedy.
+    compiler pyunit
+    " Save and run the python script with <F5>, it's pretty cool.
+    nnoremap <F5> :w <BAR> :make %<CR>
+    " Make sure Vim gets the memo about syntax.
+    set syntax=python
+augroup END
+
+" Keep the undo history, lets you close the buffer and
+" still undo.
+if !isdirectory($HOME."/.vim")
+    call mkdir($HOME."/.vim", "", 0770)
+endif
+if !isdirectory($HOME."/.vim/undo-dir")
+    call mkdir($HOME."/.vim/undo-dir", "", 0700)
+endif
+set undodir=~/.vim/undo-dir
+set undofile
+
+" Map keys to y/p to/from PRIMARY and CLIPBOARD
+noremap <Leader>Y "*y
+noremap <Leader>P "*y
+
+noremap <Leader>y "+y
+noremap <Leader>p "+p
