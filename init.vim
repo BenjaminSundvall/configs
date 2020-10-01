@@ -136,10 +136,10 @@ colorscheme gruvbox
 	cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
 
 " Enable Goyo by default for mutt writing
-	autocmd BufRead,BufNewFile /tmp/neomutt* let g:goyo_width=80
-	autocmd BufRead,BufNewFile /tmp/neomutt* :Goyo | set bg=light
-	autocmd BufRead,BufNewFile /tmp/neomutt* map ZZ :Goyo\|x!<CR>
-	autocmd BufRead,BufNewFile /tmp/neomutt* map ZQ :Goyo\|q!<CR>
+"	autocmd BufRead,BufNewFile /tmp/neomutt* let g:goyo_width=80
+"	autocmd BufRead,BufNewFile /tmp/neomutt* :Goyo | set bg=light
+"	autocmd BufRead,BufNewFile /tmp/neomutt* map ZZ :Goyo\|x!<CR>
+"	autocmd BufRead,BufNewFile /tmp/neomutt* map ZQ :Goyo\|q!<CR>
 
 " Automatically deletes all trailing whitespace and newlines at end of file on save.
 	autocmd BufWritePre * %s/\s\+$//e
@@ -168,6 +168,7 @@ set scrolloff=10
 " Clear search highlights
 nnoremap <esc><esc> :noh<enter>
 
+" Set line number background
 highlight LineNr ctermbg=black
 
 " Show 80th line
@@ -203,9 +204,28 @@ endif
 set undodir=~/.vim/undo-dir
 set undofile
 
-" Map keys to y/p to/from PRIMARY and CLIPBOARD
-noremap <Leader>Y "*y
-noremap <Leader>P "*y
+" Map keys to yank/paste to/from PRIMARY
+nnoremap <Leader>Y "*y
+nnoremap <Leader>P "*y
 
-noremap <Leader>y "+y
-noremap <Leader>p "+p
+" Map keys to yank/paste to/from CLIPBOARD
+nnoremap <Leader>y "+y
+nnoremap <Leader>p "+p
+
+" Macro shortcuts
+nnoremap <Space> @q
+
+" Quick indent/unindent (scuffed)
+"nnoremap <Tab> I<Tab><Esc>
+"nnoremap <S-Tab> I<BS><Esc>
+
+" Quick indent/unindent (good)
+nnoremap <Tab> >>_
+nnoremap <S-Tab> <<_
+inoremap <S-Tab> <C-D>
+vnoremap <Tab> >gv
+vnoremap <S-Tab> <gv
+
+" Git push shortcut
+nmap <leader>g :!git push<CR>
+nmap <leader>m :Magit<CR>
